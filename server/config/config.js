@@ -1,3 +1,5 @@
+'user strict'
+
 const config = {
   production: {
     SECRET: process.env.SECRET,
