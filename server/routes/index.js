@@ -12,7 +12,7 @@ api.get('/getbook', (req, res) => {
 
   Book.findById(id, (err, doc) => {
     if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
-    if (!doc) return res.status(404).send({ message: `The product does not exist` })
+    if (!doc) return res.status(404).send({ message: `The book does not exist` })
     res.status(200).send({ doc })
   })
 })
@@ -69,6 +69,8 @@ api.delete('/book_delete', (req, res) => {
   Book.findById(id, (err, bookDeleted) => {
     if (err) res.status(500).send({ message: `Error in the request: ${err}.` })
 
+    if (!bookDeleted) res.status(500).send({ message: `The book does not exist` })
+
     bookDeleted.remove(err => {
       if (err) res.status(500).send({ message: `Error trying to delete product: ${err}` })
 
@@ -96,7 +98,7 @@ api.post('/login', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     if (err) res.status(500).send({ message: `Error in the request: ${err}.` })
 
-    if (!user) return res.status(404).json({ isAuth: false, message: 'Email not found!' })
+    if (!user) return res.status(404).json({ isAuth: false, message: 'Email user not found!' })
 
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
@@ -141,6 +143,15 @@ api.get('/users', (req, res) => {
     if (!users) return res.status(404).send({ message: 'There is no any users' })
 
     res.status(200).send(users)
+  })
+})
+
+api.get('/user_posts', (req, res) => {
+  Book.find({ ownerId: req.query.user }).exec((err, docs) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+    if (!docs) return res.status(404).send({ message: 'There is no any docs from that user' })
+
+    res.status(200).send(docs)
   })
 })
 
