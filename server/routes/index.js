@@ -4,6 +4,7 @@ const express = require('express')
 const api = express.Router()
 const User = require('../models/user')
 const Book = require('../models/book')
+const Auth = require('../middleware/auth')
 
 // Book routes
 // get single book by id
@@ -84,11 +85,11 @@ api.delete('/book_delete', (req, res) => {
 api.post('/register', (req, res) => {
   const user = new User(req.body)
 
-  user.save((err, doc) => {
+  user.save((err, user) => {
     if (err) res.status(500).send({ message: `Error creating user: ${err}` })
     res.status(200).json({
       succes: true,
-      user: doc,
+      user: user,
     })
   })
 })
@@ -146,12 +147,35 @@ api.get('/users', (req, res) => {
   })
 })
 
+// get user posts
 api.get('/user_posts', (req, res) => {
   Book.find({ ownerId: req.query.user }).exec((err, docs) => {
     if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
     if (!docs) return res.status(404).send({ message: 'There is no any docs from that user' })
 
     res.status(200).send(docs)
+  })
+})
+
+// logout
+api.get('/logout', Auth, (req, res) => {
+  req.user.deleteToken(req.token, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+
+    if (!user) return res.status(404).send({ message: 'There is not user logged in!' })
+
+    res.status(200).send(req.user)
+  })
+})
+
+// listening to API to see if user is logged in
+api.get('/auth', Auth, (req, res) => {
+  res.json({
+    isAuth: true,
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
   })
 })
 

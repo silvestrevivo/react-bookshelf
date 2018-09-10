@@ -40,7 +40,7 @@ UserSchema.pre('save', function(next) {
   let user = this
   if (!user.isModified('password')) return next()
 
-  bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.genSalt(SALT_I, (err, salt) => {
     if (err) return next()
 
     bcrypt.hash(user.password, salt, null, (err, hash) => {
@@ -66,6 +66,26 @@ UserSchema.methods.generateToken = function(callback) {
 
   user.token = token
   user.save(function(err, user) {
+    if (err) return callback(err)
+    callback(null, user)
+  })
+}
+
+UserSchema.statics.findByToken = function(token, callback) {
+  var user = this
+
+  jwt.verify(token, config.SECRET, function(err, decode) {
+    user.findOne({ _id: decode, token: token }, function(err, user) {
+      if (err) return callback(err)
+      callback(null, user)
+    })
+  })
+}
+
+UserSchema.methods.deleteToken = function(token, callback) {
+  var user = this
+
+  user.updateOne({ $unset: { token: 1 } }, (err, user) => {
     if (err) return callback(err)
     callback(null, user)
   })
