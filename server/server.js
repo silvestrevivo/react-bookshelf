@@ -7,8 +7,10 @@ const mongoose = require('mongoose')
 const api = require('./routes')
 const config = require('./config/config').get(process.env.NODE_ENV)
 const app = express()
+const cors = require('cors')
 
 // middlewares
+app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())

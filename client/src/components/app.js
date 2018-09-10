@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import axios from 'axios';
 
-const App = () => (
-  <div className="container">
-    <img
-      src="https://cdn-images-1.medium.com/max/1600/1*ypTuZbQNEV1oGkAfn85AUA.png"
-      alt="logo-react"
-    />
-    <h1>React Starter</h1>
-  </div>
-);
+class App extends Component {
+  componentDidMount() {
+    axios
+      .get('http://localhost:3000/api/getbooks')
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>This is the basic septup</h1>
+      </div>
+    );
+  }
+}
 
 export default hot(module)(App);
