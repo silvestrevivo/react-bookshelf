@@ -29,7 +29,7 @@ api.get('/getbooks', (req, res) => {
     .limit(limit)
     .exec((err, doc) => {
       if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
-      if (!doc) return res.status(404).send({ message: `The product does not exist` })
+      if (!doc) return res.status(404).send({ message: `The book does not exist` })
       res.status(200).send({ doc })
     })
 })
@@ -117,6 +117,30 @@ api.post('/login', (req, res) => {
           })
       })
     })
+  })
+})
+
+// get user reviewer
+api.get('/getReviewer', (req, res) => {
+  let id = req.query.id
+
+  User.findById(id, (err, user) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+    if (!user) return res.status(404).send({ message: `The user does not exist` })
+    res.status(200).json({
+      name: user.name,
+      lastname: user.lastname,
+    })
+  })
+})
+
+// get all users
+api.get('/users', (req, res) => {
+  User.find({}, (err, users) => {
+    if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
+    if (!users) return res.status(404).send({ message: 'There is no any users' })
+
+    res.status(200).send(users)
   })
 })
 
