@@ -77,4 +77,47 @@ api.delete('/book_delete', (req, res) => {
   })
 })
 
+// User routes
+// register a new new user
+api.post('/register', (req, res) => {
+  const user = new User(req.body)
+
+  user.save((err, doc) => {
+    if (err) res.status(500).send({ message: `Error creating user: ${err}` })
+    res.status(200).json({
+      succes: true,
+      user: doc,
+    })
+  })
+})
+
+// login
+api.post('/login', (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) res.status(500).send({ message: `Error in the request: ${err}.` })
+
+    if (!user) return res.status(404).json({ isAuth: false, message: 'Email not found!' })
+
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          isAuth: false,
+          message: 'Wrong password',
+        })
+
+      user.generateToken((err, user) => {
+        if (err) return res.status(400).send(`token not generated: ${err}`)
+        res
+          .cookie('auth', user.token)
+          .status(200)
+          .json({
+            isAuth: true,
+            id: user._id,
+            email: user.email,
+          })
+      })
+    })
+  })
+})
+
 module.exports = api
