@@ -1,22 +1,12 @@
 'user strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
-const api = require('./routes')
+
+// import the app
+const app = require('./app')
+
+// file configuration to run server with express
 const config = require('./config/config').get(process.env.NODE_ENV)
-const app = express()
-const cors = require('cors')
-
-// middlewares
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
-
-// calling api to use end points
-app.use('/api', api)
 
 // connecting to data base
 app.set('port', process.env.PORT || 3000)

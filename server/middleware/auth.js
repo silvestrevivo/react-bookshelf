@@ -10,6 +10,8 @@ function Auth(req, res, next) {
     if (!user)
       return res.status(404).json({
         error: true,
+        // if the user is already logout, this is the message we will see
+        // if we try to logout again
       })
 
     req.token = token
@@ -19,3 +21,8 @@ function Auth(req, res, next) {
 }
 
 module.exports = Auth
+
+/*
+This middleware is to check is the user is logged in. To do that we have to
+check is the token exist => if the session is open
+*/

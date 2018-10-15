@@ -36,15 +36,16 @@ const UserSchema = mongoose.Schema({
 })
 
 // this is ejecuted before the password is sent to be encrypted
+// this function is user to register a new user, not to login
 UserSchema.pre('save', function(next) {
   let user = this
   if (!user.isModified('password')) return next()
 
   bcrypt.genSalt(SALT_I, (err, salt) => {
-    if (err) return next()
+    if (err) return next(err)
 
     bcrypt.hash(user.password, salt, null, (err, hash) => {
-      if (err) return next()
+      if (err) return next(err)
 
       user.password = hash
       next()
@@ -52,6 +53,7 @@ UserSchema.pre('save', function(next) {
   })
 })
 
+// Compare password eacht time a new user try to login
 UserSchema.methods.comparePassword = function(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) return callback(err)
@@ -60,17 +62,20 @@ UserSchema.methods.comparePassword = function(candidatePassword, callback) {
   })
 }
 
+// Generate token to each time we are logged in.
 UserSchema.methods.generateToken = function(callback) {
   var user = this
   var token = jwt.sign(user._id.toHexString(), config.SECRET)
 
   user.token = token
+  // we save the token in the user
   user.save(function(err, user) {
     if (err) return callback(err)
     callback(null, user)
   })
 }
 
+// This method helps to the middleware Auth
 UserSchema.statics.findByToken = function(token, callback) {
   var user = this
 
