@@ -51,12 +51,25 @@ export function clearBooksWithReviewer() {
 
 // USER //
 export function loginUser({ email, password }) {
-  const request = axios
-    .post(`http://localhost:3000/api/login`, { email, password })
-    .then(response => response.data);
+  const request = axios.post(`http://localhost:3000/api/login`, { email, password });
 
-  return {
-    type: 'USER_LOGIN',
-    payload: request,
+  return dispatch => {
+    request
+      .then(response => {
+        const { data } = response;
+        console.log('data');
+        dispatch({
+          type: 'USER_LOGIN_SUCCESS',
+          payload: data,
+        });
+      })
+      .catch(error => {
+        if (error.response.status === 400) {
+          dispatch({
+            type: 'USER_LOGIN_ERROR',
+            payload: error.response.data,
+          });
+        }
+      });
   };
 }
