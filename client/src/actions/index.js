@@ -15,3 +15,35 @@ export function getBooks(limit = 0, start = 0, order = 'asc', list = '') {
     payload: request,
   };
 }
+
+export function getBooksWithReviewer(id) {
+  const request = axios.get(`http://localhost:3000/api/getBook?id=${id}`);
+
+  return dispatch => {
+    request.then(response => {
+      const book = response.data;
+
+      axios.get(`http://localhost:3000/api/getReviewer?id=${book.ownerId}`).then(({ data }) => {
+        const resp = {
+          book,
+          reviewer: data,
+        };
+        console.log('res', resp);
+        dispatch({
+          type: 'GET_BOOK_W_REVIEWER',
+          payload: resp,
+        });
+      });
+    });
+  };
+}
+
+export function clearBooksWithReviewer() {
+  return {
+    type: 'CLEAR_BOOK_W_REVIEWER',
+    payload: {
+      book: {},
+      reviewer: {},
+    },
+  };
+}
