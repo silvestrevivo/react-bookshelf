@@ -72,5 +72,10 @@
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
     "rxjs-compat": "^6.3.2"
+  },
+  "proxy": {
+    "/api/": {
+      "target": "http://localhost:3000"
+    }
   }
 }
