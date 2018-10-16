@@ -27,7 +27,6 @@ class HomeContainer extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <div>{this.renderItems()}</div>

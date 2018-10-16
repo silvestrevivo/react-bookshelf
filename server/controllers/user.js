@@ -21,7 +21,7 @@ function loginUser(req, res) {
   User.findOne({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ message: `Error in the request: ${err}.` })
 
-    if (!user) return res.status(404).json({ isAuth: false, message: 'Email user not found!' })
+    if (!user) return res.json({ isAuth: false, message: 'Email user not found!' })
 
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
