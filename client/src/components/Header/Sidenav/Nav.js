@@ -1,6 +1,7 @@
 import React from 'react';
 import SideNav from 'react-simple-sidenav';
 import PropTypes from 'prop-types';
+import SidenavItems from './SidenavItems';
 
 const Nav = ({ showNav, onHideNav }) => (
   <SideNav
@@ -11,7 +12,7 @@ const Nav = ({ showNav, onHideNav }) => (
       maxWidth: '220px',
     }}
   >
-    items
+    <SidenavItems />
   </SideNav>
 );
 
