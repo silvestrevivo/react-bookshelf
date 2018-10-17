@@ -73,3 +73,31 @@ export function loginUser({ email, password }) {
       });
   };
 }
+
+export function auth() {
+  const request = axios.get('http://localhost:3000/api/auth').then(response => response.data);
+
+  return {
+    type: 'USER_AUTH_ERROR',
+    payload: request,
+  };
+
+  // return dispatch => {
+  //   request
+  //     .then(response => {
+  //       const { data } = response;
+  //       dispatch({
+  //         type: 'USER_AUTH_SUCCESS',
+  //         payload: data,
+  //       });
+  //     })
+  //     .catch(error => {
+  //       if (error.response.status === 400) {
+  //         dispatch({
+  //           type: 'USER_AUTH_ERROR',
+  //           payload: error.response.data,
+  //         });
+  //       }
+  //     });
+  // };
+}
