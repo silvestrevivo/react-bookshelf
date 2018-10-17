@@ -11,7 +11,7 @@ function Auth(req, res, next) {
     if (err) throw err
     if (!user)
       return res.status(400).json({
-        error: true,
+        isAuth: false,
         // if the user is already logout, this is the message we will see
         // if we try to logout again
       })

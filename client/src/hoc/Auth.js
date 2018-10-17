@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 
-export default function(ComposedClass) {
-  class Auth extends Component {
+export default function(ComposedClass, reload) {
+  class Auth extends PureComponent {
     state = {
       loading: true,
     }
@@ -13,14 +13,30 @@ export default function(ComposedClass) {
       auth()
     }
 
-    render() {
-      const { user } = this.props
-      if (user.login) {
-        if (user.login.isAuth) {
-          return <ComposedClass {...this.props} />
+    componentDidUpdate() {
+      const { user, history } = this.props
+      this.setState({ loading: false })
+
+      if (!user.login.isAuth) {
+        //*if user is not logged
+
+        if (reload) {
+          history.push('/login')
+        }
+      } else {
+        if (reload === false) {
+          history.push('/user')
         }
       }
-      return <div className="loader">Loading...</div>
+    }
+
+    render() {
+      const { loading } = this.state
+      if (loading) {
+        return <div className="loader">Loading...</div>
+      } else {
+        return <ComposedClass {...this.props} user={this.props.user} />
+      }
     }
   }
 
