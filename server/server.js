@@ -9,7 +9,7 @@ const app = require('./app')
 const config = require('./config/config').get(process.env.NODE_ENV)
 
 // connecting to data base
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 3001)
 mongoose.Promise = global.Promise
 mongoose.set('useCreateIndex', true)
 mongoose.connect(

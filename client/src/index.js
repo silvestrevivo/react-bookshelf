@@ -1,18 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'normalize.css';
-import '../assets/sass/style.scss';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import 'normalize.css'
+import './style.scss'
 
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import promiseMiddleware from 'redux-promise';
-import ReduxThunk from 'redux-thunk';
-import rootReducer from './reducers';
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import promiseMiddleware from 'redux-promise'
+import ReduxThunk from 'redux-thunk'
+import rootReducer from './reducers'
 
-import RoutesApp from './RoutesApp';
+import RoutesApp from './RoutesApp'
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(rootReducer)}>
@@ -20,5 +20,5 @@ ReactDOM.render(
       <RoutesApp />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
-);
+  document.getElementById('root'),
+)

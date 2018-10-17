@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
 export default function(ComposedClass) {
   class Auth extends Component {
     state = {
       loading: true,
-    };
+    }
 
     componentDidMount() {
-      const { auth } = this.props;
-      console.log('componentDidMount');
-      auth();
+      const { auth } = this.props
+      auth()
     }
 
     render() {
-      console.log(this.props);
-      const { loading } = this.state;
-      if (loading) {
-        return <div className="loader">Loading...</div>;
+      const { user } = this.props
+      if (user.login) {
+        if (user.login.isAuth) {
+          return <ComposedClass {...this.props} />
+        }
       }
-      return <ComposedClass {...this.props} />;
+      return <div className="loader">Loading...</div>
     }
   }
 
   const mapStateToProps = state => ({
     user: state.user,
-  });
+  })
 
   return connect(
     mapStateToProps,
-    actions
-  )(Auth);
+    actions,
+  )(Auth)
 }

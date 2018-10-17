@@ -44,7 +44,6 @@ api.get('/logout', Auth, userCtrl.logoutUser)
 
 // Authentication => to protect the urls
 api.get('/auth', Auth, (req, res) => {
-  console.log('auth', req.url)
   res.status(200).json({
     isAuth: true,
     id: req.user._id,
