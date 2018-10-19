@@ -9,6 +9,7 @@ import Admin from './components/Admin/Admin'
 import Add from './containers/Admin/Add'
 import UserPosts from './components/Admin/UserPosts'
 import Edit from './containers/Admin/Edit'
+import Register from './containers/Admin/Register'
 
 const RoutesApp = () => (
   <Layout>
@@ -17,6 +18,7 @@ const RoutesApp = () => (
       <Route path="/login" component={Auth(Login, false)} exact />
       <Route path="/user" component={Auth(Admin, true)} exact />
       <Route path="/user/add" component={Auth(Add, true)} exact />
+      <Route path="/user/register" component={Auth(Register, true)} exact />
       <Route path="/user/edit-post/:id" component={Auth(Edit, true)} exact />
       <Route path="/books/:id" component={Auth(BookView)} exact />
       <Route path="/user/user-reviews" component={Auth(UserPosts, true)} exact />
