@@ -10,12 +10,14 @@ import Add from './containers/Admin/Add'
 import UserPosts from './components/Admin/UserPosts'
 import Edit from './containers/Admin/Edit'
 import Register from './containers/Admin/Register'
+import Logout from './containers/Admin/Logout'
 
 const RoutesApp = () => (
   <Layout>
     <Switch>
       <Route path="/" component={Auth(Home, null)} exact />
       <Route path="/login" component={Auth(Login, false)} exact />
+      <Route path="/user/logout" component={Auth(Logout, true)} exact />
       <Route path="/user" component={Auth(Admin, true)} exact />
       <Route path="/user/add" component={Auth(Add, true)} exact />
       <Route path="/user/register" component={Auth(Register, true)} exact />
