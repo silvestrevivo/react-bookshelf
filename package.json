@@ -1,16 +1,17 @@
 {
   "name": "react-bookshelf",
   "version": "1.0.0",
-  "description": "Mobile responsive application developed with Node/Express/React/Redux, following the Udemy tutorial from CodeRevolution",
+  "description": "Mobile responsive application developed with Node/Express/React/Redux-Thunk, following the Udemy tutorial from CodeRevolution",
   "main": "/server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/server.js",
+    "mongodb": "mongod",
     "server": "nodemon server/server.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run mongodb\" \"npm run server\" \"npm run client\""
   },
   "engines": {
+    "//": "this is needed for deployment with Heroku",
     "node": "8.6.0"
   },
   "repository": {

@@ -10,8 +10,9 @@ function Auth(req, res, next) {
   User.findByToken(token, (err, user) => {
     if (err) throw err
     if (!user)
-      return res.status(400).json({
+      return res.status(403).json({
         isAuth: false,
+        message: 'no user logged in',
         // if the user is already logout, this is the message we will see
         // if we try to logout again
       })

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
 class BookView extends Component {
   static propTypes = {
@@ -9,16 +9,16 @@ class BookView extends Component {
     clearBooksWithReviewer: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     books: PropTypes.object.isRequired,
-  };
+  }
 
   componentDidMount() {
-    const { getBooksWithReviewer, match } = this.props;
-    getBooksWithReviewer(match.params.id);
+    const { getBooksWithReviewer, match } = this.props
+    getBooksWithReviewer(match.params.id)
   }
 
   componentWillUnmount() {
-    const { clearBooksWithReviewer } = this.props;
-    clearBooksWithReviewer();
+    const { clearBooksWithReviewer } = this.props
+    clearBooksWithReviewer()
   }
 
   renderBook = books =>
@@ -47,19 +47,20 @@ class BookView extends Component {
           </div>
         </div>
       </div>
-    ) : null;
+    ) : null
 
   render() {
-    const { books } = this.props;
-    return <div>{this.renderBook(books)}</div>;
+    console.log(this.props)
+    const { books } = this.props
+    return <div>{this.renderBook(books)}</div>
   }
 }
 
 const mapStateToProps = state => ({
   books: state.books,
-});
+})
 
 export default connect(
   mapStateToProps,
-  actions
-)(BookView);
+  actions,
+)(BookView)

@@ -6,5 +6,10 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "prettier.printWidth": 120,
-  "javascript.updateImportsOnFileMove.enabled": "always"
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#2cf4ff",
+    "titleBar.inactiveBackground": "#1b7cb1",
+    "titleBar.activeForeground": "#280c3a"
+  }
 }

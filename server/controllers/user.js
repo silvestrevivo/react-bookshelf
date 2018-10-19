@@ -91,6 +91,17 @@ function logoutUser(req, res) {
   })
 }
 
+// Check if a user has the session open
+function authUser(req, res) {
+  res.status(200).json({
+    isAuth: true,
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+  })
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -98,4 +109,5 @@ module.exports = {
   getAllUsers,
   getUserPost,
   logoutUser,
+  authUser,
 }

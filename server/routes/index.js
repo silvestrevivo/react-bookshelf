@@ -43,14 +43,7 @@ api.get('/user_posts', userCtrl.getUserPost)
 api.get('/logout', Auth, userCtrl.logoutUser)
 
 // Authentication => to protect the urls
-api.get('/auth', Auth, (req, res) => {
-  res.status(200).json({
-    isAuth: true,
-    id: req.user._id,
-    email: req.user.email,
-    name: req.user.name,
-    lastname: req.user.lastname,
-  })
-})
+// We use this end point to know if a user session is running
+api.get('/auth', Auth, userCtrl.authUser)
 
 module.exports = api

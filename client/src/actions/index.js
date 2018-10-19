@@ -65,7 +65,7 @@ export function addBook(book) {
 
 export function clearNewBook() {
   return {
-    type: 'CLEAR_BOOK',
+    type: 'CLEAR_NEWBOOK',
     payload: {},
   }
 }
@@ -76,6 +76,44 @@ export function getUserPosts(userId) {
   return {
     type: 'GET_USER_POSTS',
     payload: request,
+  }
+}
+
+export function getBook(id) {
+  const request = axios.get(`/api/getBook?id=${id}`).then(response => response.data)
+
+  return {
+    type: 'GET_BOOK',
+    payload: request,
+  }
+}
+
+export function updateBook(data) {
+  const request = axios.put('/api/book_update', data).then(response => response.data)
+
+  return {
+    type: 'UPDATE_BOOK',
+    payload: request,
+  }
+}
+
+export function deleteBook(id) {
+  const request = axios.delete(`/api/book_delete?id=${id}`).then(response => response.data)
+
+  return {
+    type: 'DELETE_BOOK',
+    payload: request,
+  }
+}
+
+export function clearBook() {
+  return {
+    type: 'CLEAR_BOOK',
+    payload: {
+      book: {},
+      updateBook: false,
+      postDeleted: false,
+    },
   }
 }
 
@@ -116,7 +154,7 @@ export function auth() {
         })
       })
       .catch(error => {
-        if (error.response.status === 400) {
+        if (error.response.status === 403) {
           dispatch({
             type: 'USER_AUTH_ERROR',
             payload: error.response.data,
